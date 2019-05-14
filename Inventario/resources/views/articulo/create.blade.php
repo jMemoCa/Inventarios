@@ -6,7 +6,7 @@
 <form action="/articulos" method="POST" class="form-group">
 @csrf
 <div class="form-group">
-        <label for="articulo">Nombre</label>
+        <label for="articulo">Artículo</label>
         <input type="text" name="articulo" class="form-control @error('articulo') is-invalid @enderror">
           
         @error('articulo')
@@ -26,8 +26,8 @@
     @enderror
     </div>
     <div class="form-group">
-            <label for="cantidad">Descripcion</label>
-            <input type="text" name="cantidad" class="form-control @error('cantidad') is-invalid @enderror">
+            <label for="cantidad">Cantidad</label>
+            <input type="number"  name="cantidad" class="form-control @error('cantidad') is-invalid @enderror">
             
             @error('cantidad')
             <span class="invalid-feedback" role="alert">
@@ -37,7 +37,7 @@
         </div>
 
         <div class="form-group">
-                <label for="categoriaId">Descripcion</label>
+                <label for="categoriaId">Categoria</label>
                 <input type="text" name="categoriaId" class="form-control @error('categoriaId') is-invalid @enderror">
                 
                 @error('categoriaId')
@@ -48,6 +48,7 @@
             </div>
     <div class="form-group">
         <button class="btn btn-primary" type="submit">Guardar</button>
+        <a class="btn btn-secondary" type="submit" href="/articulos">Cancelar</a>
     </div>
 
 </form>

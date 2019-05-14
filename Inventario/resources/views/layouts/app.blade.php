@@ -20,7 +20,7 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-light bg-light text-light shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     Inventario
@@ -36,7 +36,7 @@
                     </ul>
 
                     <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
+                    <ul class="navbar-nav justify-content-center  text-light">
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
@@ -49,25 +49,33 @@
                             @endif
                         @else
                             
-                        @if(Auth::user()->hasRol('Administrador')) 
+                        @if(Auth::user()->hasAccessUsuarioAccion(Auth::user()->id ,'articulos>consultar')) 
 
                             <li class="nav-item dropdown">
                                     <a id="navbarDropdown" class="nav-link" href="/articulos" role="button">
                                            Artículos 
                                         </a>
                         @endif
-                        @if(Auth::user()->hasAnyRol(['Supervisor','Administrador','Almacen']) ) 
+                        @if(Auth::user()->hasAccessUsuarioAccion(Auth::user()->id ,'categorias>consultar')) 
 
                             <li class="nav-item dropdown">
                                     <a id="navbarDropdown" class="nav-link" href="/categorias" role="button">
-                                           Categorias 
+                                           Categorías 
                                         </a>
                         @endif
-                        @if(Auth::user()->hasAnyRol(['Administrador','Supervisor'])) 
+                        @if(Auth::user()->hasAccessUsuarioAccion(Auth::user()->id ,'bitacoras>consultar')) 
 
                             <li class="nav-item dropdown">
                                     <a id="navbarDropdown" class="nav-link" href="/bitacoras" role="button">
                                            Bitácora de movimientos
+                                        </a>
+                        @endif
+
+                        @if(Auth::user()->hasAccessUsuarioAccion(Auth::user()->id ,'permisos>consultar')) 
+
+                            <li class="nav-item dropdown">
+                                    <a id="navbarDropdown" class="nav-link" href="/permisos" role="button">
+                                           Permisos
                                         </a>
                         @endif
 

@@ -15,11 +15,9 @@ class ArticuloController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    { 
-       
+    {        
       //  return  Auth::user()-> rolsUser(Auth::user()->id);
-     
-      //  return Auth::user()->hasAccessUsuario(Auth::user()->id ,'articulos>index');
+      Auth::user()->hasAccessUsuario(Auth::user()->id ,'articulos>consultar');        
        //funcion Auth::user()->tieneAcceso('categorias.index');
        
         // if(Auth::user()->rolId=="1"){
@@ -38,6 +36,7 @@ class ArticuloController extends Controller
      */
     public function create()
     {
+        Auth::user()->hasAccessUsuario(Auth::user()->id ,'articulos>crear'); 
          
 
          return view('articulo.create');
@@ -51,7 +50,7 @@ class ArticuloController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    { Auth::user()->hasAccessUsuario(Auth::user()->id ,'articulos>crear'); 
         
 
         $request->validate([
@@ -82,6 +81,7 @@ class ArticuloController extends Controller
      */
     public function show($id)
     {
+        Auth::user()->hasAccessUsuario(Auth::user()->id ,'articulos>editar'); 
         $articulo= Articulo::find($id);
         return  $articulo;
     }
@@ -93,7 +93,7 @@ class ArticuloController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
+    { Auth::user()->hasAccessUsuario(Auth::user()->id ,'articulos>editar'); 
         $articulo= Articulo::find($id);
         return  view('articulo.edit',compact('articulo'));
     }
@@ -106,6 +106,7 @@ class ArticuloController extends Controller
      */
     public function update(Request $request, Articulo $articulo)
     {
+        Auth::user()->hasAccessUsuario(Auth::user()->id ,'articulos>editar'); 
         $request->validate([
             'articulo'=>'required|max:255',
             'descripcion'=>'required|max:255'
@@ -127,6 +128,7 @@ class ArticuloController extends Controller
      */
     public function destroy(Request $request, Articulo $articulo)
     {
+        Auth::user()->hasAccessUsuario(Auth::user()->id ,'articulos>eliminar'); 
         $articulo->fill($request->all());
         $articulo->delete(); 
         return redirect()->route('articulos.index');

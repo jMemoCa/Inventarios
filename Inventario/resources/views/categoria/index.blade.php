@@ -2,16 +2,17 @@
 @section('title','Crear artículo')   
    
 @section('content')
-
+@if(Auth::user()->hasAccessUsuarioAccion(Auth::user()->id ,'categorias>crear'))
 <a href="/categorias/create" class="btn btn-success">Crear</a>
+@endif
 <table id="tableCategorias" class="table table-hover table-condensed">
     <thead>
         <tr><th>Categoria</th>
             <th>Descripción</th>
             <th>Creada</th>
             <th>Modificada</th>
-            <th>Editar</th>
-            <th>Eliminar</th>
+             
+            <th>Opciones</th>
         </tr>
     </thead>
     <tbody>
@@ -24,13 +25,18 @@
         <td>{{$categoria->descripcion}}</td>
         <td>{{$categoria->created_at}}</td>
         <td>{{$categoria->updated_at}}</td>
-        <td><a href="/categorias/{{$categoria->id}}/edit" class="btn btn-primary">Editar</a></td>
-        <td>            
+        <td>
+                @if(Auth::user()->hasAccessUsuarioAccion(Auth::user()->id ,'categorias>editar'))
+            <a href="/categorias/{{$categoria->id}}/edit" class="btn btn-primary">Editar</a> 
+           @endif
+                @if(Auth::user()->hasAccessUsuarioAccion(Auth::user()->id ,'categorias>eliminar'))         
                 <form action="/categorias/{{$categoria->id}}" method="POST" class="form-group">
+
                     @method('DELETE')
                 @csrf
                     <button class="btn btn-danger">Eliminar</button>
-                </form>       
+                </form>    
+                @endif   
         </td>
     </tr>
  @endforeach

@@ -7,7 +7,7 @@
     @method('PUT')
 @csrf
 <div class="form-group">
-        <label for="categoria">Nombre</label>
+        <label for="categoria">Categoría</label>
 <input type="text" value="{{$categoria->categoria}}" name="categoria" class="form-control @error('categoria') is-invalid @enderror">
           
         @error('categoria')
@@ -17,7 +17,7 @@
     @enderror
     </div>
     <div class="form-group">
-        <label for="descripcion">Descripcion</label>
+        <label for="descripcion">Descripción</label>
         <input type="text" value="{{$categoria->descripcion}}" name="descripcion" class="form-control @error('descripcion') is-invalid @enderror">
         
         @error('descripcion')
@@ -28,6 +28,8 @@
     </div>
     <div class="form-group">
         <button class="btn btn-primary" type="submit">Guardar</button>
+        <a class="btn btn-secondary" type="submit" href="/categorias">Cancelar</a>
+        
     </div>
 </form>
 

@@ -9,7 +9,7 @@ class Rol extends Model
     public function users()
     {
         return $this
-            ->belongsToMany('App\User')
+            ->belongsToMany('Inventario\User')
             ->withTimestamps();
     }
 
@@ -46,6 +46,20 @@ public function rolsUser($user)
     return   $posts ;
     
 }
+
+public function rol_accion()
+{
+    $accionesRol=  Accion::select('accion_rol.rol_id','rols.rol','accion_rol.accion_id','accions.accion')
+    ->join('accion_rol', 'accions.id', '=', 'accion_rol.accion_id')
+    ->join('rols', 'rols.id', '=', 'accion_rol.rol_id')->orderBy('rols.rol', 'asc')->orderBy('accions.accion', 'asc')
+    ->get();
+
+    
+
+    return   $accionesRol ;
+    
+}
+ 
 
 public function hasAccessRolAction($rol,$accion)
 {

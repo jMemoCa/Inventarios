@@ -4,8 +4,12 @@ namespace Inventario\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Inventario\Categoria;
+use Illuminate\Support\Facades\Auth;
+use Inventario\User;
+use Inventario\Rol;
 class CategoriaController extends Controller
 {
+    
     /**
      * Display a listing of the resource.
      *
@@ -13,6 +17,8 @@ class CategoriaController extends Controller
      */
     public function index()
     {
+         
+        Auth::user()->hasAccessUsuario(Auth::user()!=null?Auth::user()->id:null ,'categorias>consultar'); 
         $categorias= $categorias=Categoria::All();
         return view('categoria.index',compact('categorias'));
     }
@@ -23,7 +29,7 @@ class CategoriaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
+    {  Auth::user()->hasAccessUsuario(Auth::user()->id ,'categorias>crear'); 
         return view('categoria.create');
     }
 
@@ -34,7 +40,7 @@ class CategoriaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    { Auth::user()->hasAccessUsuario(Auth::user()->id ,'categorias>crear');
 
         $request->validate([
                 'categoria'=>'required|max:255',
@@ -59,7 +65,7 @@ class CategoriaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
+    { Auth::user()->hasAccessUsuario(Auth::user()->id ,'categorias>editar');
         $categoria= Categoria::find($id);
         return  $categoria;
     }
@@ -71,7 +77,7 @@ class CategoriaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
+    { Auth::user()->hasAccessUsuario(Auth::user()->id ,'categorias>editar');
         $categoria= Categoria::find($id);
         return  view('categoria.edit',compact('categoria'));
     }
@@ -83,7 +89,7 @@ class CategoriaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Categoria $categoria)
-    {
+    { Auth::user()->hasAccessUsuario(Auth::user()->id ,'categorias>editar');
         $request->validate([
             'categoria'=>'required|max:255',
             'descripcion'=>'required|max:255'
@@ -105,6 +111,7 @@ class CategoriaController extends Controller
      */
     public function destroy(Request $request, Categoria $categoria)
     {
+        Auth::user()->hasAccessUsuario(Auth::user()->id ,'categorias>eliminar');
         $categoria->fill($request->all());
         $categoria->delete(); 
         return redirect()->route('categorias.index');

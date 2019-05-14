@@ -3,7 +3,9 @@
    
 @section('content')
 
+@if(Auth::user()->hasAccessUsuarioAccion(Auth::user()->id ,'articulos>crear'))
 <a href="/articulos/create" class="btn btn-success">Crear</a>
+@endif
 <table id="tableArticulos" class="table table-hover table-condensed">
     <thead>
         <tr><th>Articulo</th>
@@ -12,8 +14,8 @@
             <th>Categoria</th>
             <th>Creada</th>
             <th>Modificada</th>
-            <th>Editar</th>
-            <th>Eliminar</th>
+            <th>Opciones</th>
+            
         </tr>
     </thead>
     <tbody>
@@ -29,13 +31,23 @@
         <td>{{$articulo->created_at}}</td>
         <td>{{$articulo->updated_at}}</td>
        
-        <td><a href="/articulos/{{$articulo->id}}/edit" class="btn btn-primary">Editar</a></td>
-        <td>            
+        <td>
+            
+            @if(Auth::user()->hasAccessUsuarioAccion(Auth::user()->id ,'articulos>editar'))
+
+            
+            <a href="/articulos/{{$articulo->id}}/edit" class="btn btn-primary">Editar</a>
+            @endif  
+           
+           @if(Auth::user()->hasAccessUsuarioAccion(Auth::user()->id ,'articulos>eliminar'))
+
+
                 <form action="/articulos/{{$articulo->id}}" method="POST" class="form-group">
                     @method('DELETE')
                 @csrf
                     <button class="btn btn-danger">Eliminar</button>
-                </form>       
+                </form>  
+                @endif    
         </td>
     </tr>
  @endforeach

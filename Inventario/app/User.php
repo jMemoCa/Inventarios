@@ -45,25 +45,6 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
-    public function hasAccessUsuario($UserId,$accionId){
-        $roles=['1'];       
-        
-        foreach($roles as $rol) {
-
-            print_r($rol);
-            
-          $acciones=  $this->accionesRol((string)$rol,(string)$accionId);
-        
-            foreach($acciones as $acion){
-                
-                return true;
-            } 
-         break;          
-        }
-    
-    abort(401, 'Esta acción no está autorizada.');
-}
-
  
     
     public function authorizeRoles($roles)
@@ -98,10 +79,51 @@ public function hasRol($rol)
     return false;
 }
 
+
+
+public function hasAccessUsuario($UserId,$accionId){
+    
+    if($UserId!=null){
+    $roles=$this->rolsUser($UserId);
+    //return $roles;
+    foreach($roles as $rol) {
+    
+             if(Accion::select('accions.accion')->join('rol_accion', 'accions.id', '=', 'rol_accion.accion_id')->where('rol_accion.rol_id','=',$rol->id)->where('accions.accion','=',$accionId)->first()){
+                return true;
+             }
+    }}
+    abort(401, 'Esta acción no está autorizada.');
+
+
+
+}
+
+public function hasAccessUsuarioAccion($UserId,$accionId){
+  
+  if($UserId!=null){
+  
+    $roles=$this->rolsUser($UserId);
+    //return $roles;
+    foreach($roles as $rol) {
+    
+             if(Accion::select('accions.accion')->join('rol_accion', 'accions.id', '=', 'rol_accion.accion_id')->where('rol_accion.rol_id','=',$rol->id)->where('accions.accion','=',$accionId)->first()){
+                return true;
+             }
+    }
+}
+    return false;
+
+
+}
+
+
+
+
 //Retorna los roles de un usuario
-public function rolsUser($user)
+public function rolsUser($UserId)
 {
-    $posts = Rol::select('rols.id')->join('rol_user', 'rol_user.rol_id', '=', 'rols.id')->where('rol_user.user_id', '=', $user)->get();
+    $posts = Rol::select('rols.id')->join('rol_user', 'rol_user.rol_id', '=', 'rols.id')
+    ->where('rol_user.user_id', '=', $UserId)->get();
     
 
     return   $posts ;
@@ -112,15 +134,19 @@ public function rolsUser($user)
 public function accionesRol($rol,$accion)
 {
     //$posts = Accion::where('accion','=',$accion)->get();
+    // echo $accion;
     
-    $acciones=  Accion::select('accions.accion')
-                ->join('rol_accion', 'accions.id', '=', 'rol_accion.accion_id')->where('rol_accion.rol_id','=',$rol)
-                ->where('accions.accion','=',$accion)
-                ->get();
-
+    $accionReto=  Accion::select('accions.accion')->join('accion_rol', 'accions.id', '=', 'accion_rol.accion_id')->where('accion_rol.rol_id','=',$rol)->where('accions.accion','=',$accion)->first();
  
-    return   $acciones ;
+    return   $accion;
     
+}
+
+public function sesionActiva($activa){
+    if($activa==false){
+        abort(401, 'Esta acción no está autorizada.');
+    }
+
 }
  
 }
