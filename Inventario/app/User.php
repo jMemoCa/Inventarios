@@ -88,7 +88,7 @@ public function hasAccessUsuario($UserId,$accionId){
     //return $roles;
     foreach($roles as $rol) {
     
-             if(Accion::select('accions.accion')->join('rol_accion', 'accions.id', '=', 'rol_accion.accion_id')->where('rol_accion.rol_id','=',$rol->id)->where('accions.accion','=',$accionId)->first()){
+             if(Accion::select('accions.accion')->join('accion_rol', 'accions.id', '=', 'accion_rol.accion_id')->where('accion_rol.rol_id','=',$rol->id)->where('accions.accion','=',$accionId)->first()){
                 return true;
              }
     }}
@@ -106,7 +106,7 @@ public function hasAccessUsuarioAccion($UserId,$accionId){
     //return $roles;
     foreach($roles as $rol) {
     
-             if(Accion::select('accions.accion')->join('rol_accion', 'accions.id', '=', 'rol_accion.accion_id')->where('rol_accion.rol_id','=',$rol->id)->where('accions.accion','=',$accionId)->first()){
+             if(Accion::select('accions.accion')->join('accion_rol', 'accions.id', '=', 'accion_rol.accion_id')->where('accion_rol.rol_id','=',$rol->id)->where('accions.accion','=',$accionId)->first()){
                 return true;
              }
     }

@@ -3,6 +3,7 @@
 namespace Inventario\Http\Controllers\Auth;
 
 use Inventario\User;
+use Inventario\Rol;
 use Inventario\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -63,13 +64,14 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+
         $user= User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
         $user
-        ->rols()->attach(Rol::where('name', 'user')->first());
+        ->rols()->attach(Rol::where('rol', 'Administrador')->first());
     return $user;
     }
 
